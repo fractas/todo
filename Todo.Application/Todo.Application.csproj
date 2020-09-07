@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="8.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Todo.Entities\Todo.Entities.csproj" />
+    <ProjectReference Include="..\Todo.Ports\Todo.Ports.csproj" />
+    <ProjectReference Include="..\Todo.UseCases.Add\Todo.UseCases.Add.csproj" />
+    <ProjectReference Include="..\Todo.UseCases.Do\Todo.UseCases.Do.csproj" />
+    <ProjectReference Include="..\Todo.UseCases.List\Todo.UseCases.List.csproj" />
+    <ProjectReference Include="..\Todo.UseCases.Remove\Todo.UseCases.Remove.csproj" />
+    <ProjectReference Include="..\Todo.UseCases.Undo\Todo.UseCases.Undo.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200905205226_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200905205226_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200905205933_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200905205933_InitialCreate.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Todo.Entities\Todo.Entities.csproj" />
+    <ProjectReference Include="..\Todo.Ports\Todo.Ports.csproj" />
+  </ItemGroup>
+
+</Project>
