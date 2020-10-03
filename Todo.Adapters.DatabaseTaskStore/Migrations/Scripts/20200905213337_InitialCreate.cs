@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Todo.Adapters.DatabaseTaskStore.Migrations.Scripts

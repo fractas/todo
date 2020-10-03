@@ -1,6 +1,5 @@
 ﻿using MediatR;
 
-using Todo.Ports;
 using Todo.Ports.UseCases;
 
 namespace Todo.UseCases.Remove

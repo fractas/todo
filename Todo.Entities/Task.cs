@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Todo.Ports.Entities;
+
 namespace Todo.Entities
 {
     public struct Task : ITask

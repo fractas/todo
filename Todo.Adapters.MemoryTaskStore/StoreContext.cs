@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using Todo.Entities;
+using Todo.Ports.Entities;
 
 namespace Todo.Adapters.MemoryTaskStore
 {

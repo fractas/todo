@@ -6,6 +6,7 @@ using System.Linq;
 
 using Todo.Adapters.FileSystemTaskStore.DependencyInjection;
 using Todo.Entities;
+using Todo.Ports.Entities;
 
 namespace Todo.Adapters.FileSystemTaskStore
 {

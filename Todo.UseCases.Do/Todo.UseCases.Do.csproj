@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Todo.Entities\Todo.Entities.csproj" />
     <ProjectReference Include="..\Todo.Ports\Todo.Ports.csproj" />
   </ItemGroup>
 

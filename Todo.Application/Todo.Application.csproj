@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Todo.Entities\Todo.Entities.csproj" />
     <ProjectReference Include="..\Todo.Ports\Todo.Ports.csproj" />
     <ProjectReference Include="..\Todo.UseCases.Add\Todo.UseCases.Add.csproj" />
     <ProjectReference Include="..\Todo.UseCases.Do\Todo.UseCases.Do.csproj" />

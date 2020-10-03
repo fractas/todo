@@ -2,7 +2,7 @@
 
 using MediatR;
 
-using Todo.Entities;
+using Todo.Ports.Entities;
 
 namespace Todo.UseCases.List
 {

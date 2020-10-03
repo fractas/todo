@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using MediatR;
 
-using Todo.Entities;
+using Todo.Ports.Entities;
 using Todo.Ports.UseCases;
 using Todo.UseCases.Add;
 using Todo.UseCases.Do;

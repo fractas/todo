@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 
 using MediatR;
 
 using Todo.Entities;
+using Todo.Ports.Entities;
 using Todo.Ports.UseCases;
 
 namespace Todo.UseCases.Add

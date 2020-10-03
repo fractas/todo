@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Todo.Entities;
+using Todo.Ports.Entities;
 
 namespace Todo.Adapters.DatabaseTaskStore.Migrations.Configurations
 {

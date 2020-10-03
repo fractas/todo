@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Todo.Entities;
+using Todo.Ports.Entities;
 
 namespace Todo.Ports.UseCases
 {

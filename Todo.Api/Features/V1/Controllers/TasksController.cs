@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Todo.Entities;
+using Todo.Ports.Entities;
 using Todo.Ports.UseCases;
 
 namespace Todo.Api.Features.V1.Controllers

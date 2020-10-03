@@ -21,7 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Todo.Adapters.DatabaseTaskStore\Todo.Adapters.DatabaseTaskStore.csproj" />
     <ProjectReference Include="..\Todo.Adapters.FileSystemTaskStore\Todo.Adapters.FileSystemTaskStore.csproj" />
-    <ProjectReference Include="..\Todo.Adapters.MemeoryTaskStore\Todo.Adapters.MemoryTaskStore.csproj" />
+    <ProjectReference Include="..\Todo.Adapters.MemoryTaskStore\Todo.Adapters.MemoryTaskStore.csproj" />
     <ProjectReference Include="..\Todo.Application\Todo.Application.csproj" />
   </ItemGroup>
 

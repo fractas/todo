@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Todo.Entities;
+using Todo.Ports.Entities;
 
 namespace Todo.Ports.UseCases
 {

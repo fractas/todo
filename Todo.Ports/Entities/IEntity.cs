@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Todo.Entities
+namespace Todo.Ports.Entities
 {
     public interface IEntity
     {
