@@ -1,15 +1,11 @@
 ﻿using System;
 
-namespace Todo.Ports.Entities
+namespace Todo.Ports.Entities;
+
+public interface ITask : IAggregate, IEquatable<ITask>, IComparable<ITask>
 {
-    public interface ITask : IAggregate, IEquatable<ITask>, IComparable<ITask>
-    {
-        string Description { get; }
-
-        bool Done { get; }
-
-        void Do();
-
-        void Undo();
-    }
+    string Description { get; }
+    bool Done { get; }
+    void Do();
+    void Undo();
 }

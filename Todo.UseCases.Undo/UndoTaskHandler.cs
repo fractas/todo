@@ -1,27 +1,25 @@
 ﻿using MediatR;
-
 using Todo.Ports.Entities;
 using Todo.Ports.UseCases;
 
-namespace Todo.UseCases.Undo
+namespace Todo.UseCases.Undo;
+
+public class UndoTaskHandler : RequestHandler<UndoTask>
 {
-    public class UndoTaskHandler : RequestHandler<UndoTask>
+    private readonly ITaskStore _store;
+
+    public UndoTaskHandler(ITaskStore store)
     {
-        private readonly ITaskStore _store;
+        _store = store;
+    }
 
-        public UndoTaskHandler(ITaskStore store)
+    protected override void Handle(UndoTask request)
+    {
+        if (_store.TryFind(request.TaskId, out ITask task))
         {
-            _store = store;
-        }
+            task.Undo();
 
-        protected override void Handle(UndoTask request)
-        {
-            if (_store.TryFind(request.TaskId, out ITask task))
-            {
-                task.Undo();
-
-                _store.Save(task);
-            }
+            _store.Save(task);
         }
     }
 }

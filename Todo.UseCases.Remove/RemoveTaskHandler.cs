@@ -2,20 +2,19 @@
 
 using Todo.Ports.UseCases;
 
-namespace Todo.UseCases.Remove
+namespace Todo.UseCases.Remove;
+
+public class RemoveTaskHandler : RequestHandler<RemoveTask>
 {
-    public class RemoveTaskHandler : RequestHandler<RemoveTask>
+    private readonly ITaskStore _store;
+
+    public RemoveTaskHandler(ITaskStore store)
     {
-        private readonly ITaskStore _store;
+        _store = store;
+    }
 
-        public RemoveTaskHandler(ITaskStore store)
-        {
-            _store = store;
-        }
-
-        protected override void Handle(RemoveTask request)
-        {
-            _store.Remove(request.TaskId);
-        }
+    protected override void Handle(RemoveTask request)
+    {
+        _store.Remove(request.TaskId);
     }
 }

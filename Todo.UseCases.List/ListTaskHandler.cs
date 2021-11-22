@@ -1,24 +1,21 @@
 ﻿using System.Collections.Generic;
-
 using MediatR;
-
 using Todo.Ports.Entities;
 using Todo.Ports.UseCases;
 
-namespace Todo.UseCases.List
+namespace Todo.UseCases.List;
+
+public class ListTaskHandler : RequestHandler<ListTask, IEnumerable<ITask>>
 {
-    public class ListTaskHandler : RequestHandler<ListTask, IEnumerable<ITask>>
+    private readonly ITaskStore _store;
+
+    public ListTaskHandler(ITaskStore store)
     {
-        private readonly ITaskStore _store;
+        _store = store;
+    }
 
-        public ListTaskHandler(ITaskStore store)
-        {
-            _store = store;
-        }
-
-        protected override IEnumerable<ITask> Handle(ListTask request)
-        {
-            return _store.List(t => true, request.PageNumber, request.PageSize);
-        }
+    protected override IEnumerable<ITask> Handle(ListTask request)
+    {
+        return _store.List(t => true, request.PageNumber, request.PageSize);
     }
 }

@@ -1,27 +1,25 @@
 ﻿using MediatR;
-
 using Todo.Ports.Entities;
 using Todo.Ports.UseCases;
 
-namespace Todo.UseCases.Do
+namespace Todo.UseCases.Do;
+
+public class DoTaskHandler : RequestHandler<DoTask>
 {
-    public class DoTaskHandler : RequestHandler<DoTask>
+    private readonly ITaskStore _store;
+
+    public DoTaskHandler(ITaskStore store)
     {
-        private readonly ITaskStore _store;
+        _store = store;
+    }
 
-        public DoTaskHandler(ITaskStore store)
+    protected override void Handle(DoTask request)
+    {
+        if (_store.TryFind(request.TaskId, out ITask task))
         {
-            _store = store;
-        }
+            task.Do();
 
-        protected override void Handle(DoTask request)
-        {
-            if (_store.TryFind(request.TaskId, out ITask task))
-            {
-                task.Do();
-
-                _store.Save(task);
-            }
+            _store.Save(task);
         }
     }
 }

@@ -2,48 +2,46 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Todo.Api.DependencyInjection
+namespace Todo.Api.DependencyInjection;
+
+public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 {
-    public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+    private readonly IApiVersionDescriptionProvider _provider;
+
+    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
     {
-        private readonly IApiVersionDescriptionProvider _provider;
+        _provider = provider;
+    }
 
-        public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
+    public void Configure(SwaggerGenOptions options)
+    {
+        foreach (var description in _provider.ApiVersionDescriptions)
         {
-            _provider = provider;
+            options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
         }
+    }
 
-        public void Configure(SwaggerGenOptions options)
+    private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
+    {
+        var info = new OpenApiInfo()
         {
-            foreach (var description in _provider.ApiVersionDescriptions)
+            Title = "API Versioning and Swagger",
+            Version = description.ApiVersion.ToString(),
+            Description = "ApiVersioningSwagger",
+            Contact = new OpenApiContact
             {
-                options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
+                Name = "Administrator",
+                Email = "admin@email.com"
             }
-        }
+        };
 
-        private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
+        if (description.IsDeprecated)
         {
-            var info = new OpenApiInfo()
-            {
-                Title = "API Versioning and Swagger",
-                Version = description.ApiVersion.ToString(),
-                Description = "ApiVersioningSwagger",
-                Contact = new OpenApiContact
-                {
-                    Name = "Administrator",
-                    Email = "admin@email.com"
-                }
-            };
-
-            if (description.IsDeprecated)
-            {
-                info.Description += " This API version has been deprecated.";
-            }
-
-            return info;
+            info.Description += " This API version has been deprecated.";
         }
+
+        return info;
     }
 }

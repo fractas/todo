@@ -1,25 +1,20 @@
 ﻿using System;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 using Todo.Ports.UseCases;
 
-namespace Todo.Adapters.FileSystemTaskStore.DependencyInjection
+namespace Todo.Adapters.FileSystemTaskStore.DependencyInjection;
+
+public static class TaskStoreExtensions
 {
-    public static class TaskStoreExtensions
+    public static void UseFileSystemStore(this IServiceProvider _, IServiceCollection services, IConfiguration configuration)
     {
-        public static void UseFileSystemStore(this IServiceProvider _, IServiceCollection services, IConfiguration configuration)
-        {
-            ApplicationConfiguration app = new ApplicationConfiguration();
+        FileSystemTaskStoreConfiguration app = new FileSystemTaskStoreConfiguration();
 
-            configuration.Bind("FileSystemTaskStore", app);
+        configuration.Bind("FileSystemTaskStore", app);
 
-            services.AddSingleton(app);
-
-            services.AddSingleton<StoreContext>();
-
-            services.AddTransient<ITaskStore, TaskStore>();
-        }
+        services.AddSingleton(app);
+        services.AddSingleton<StoreContext>();
+        services.AddTransient<ITaskStore, TaskStore>();
     }
 }

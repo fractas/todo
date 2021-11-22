@@ -1,99 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Mvc;
-
 using Todo.Ports.Entities;
 using Todo.Ports.UseCases;
 
-namespace Todo.Api.Features.V1.Controllers
+namespace Todo.Api.Features.V1.Controllers;
+
+[ApiController]
+[ApiVersion("1")]
+[Route("v{version:apiVersion}/tasks")]
+public class TasksController : ControllerBase
 {
-    [ApiController]
-    [ApiVersion("1")]
-    [Route("v{version:apiVersion}/tasks")]
-    public class TasksController : ControllerBase
+    private readonly ITaskService _service;
+
+    public TasksController(ITaskService service)
     {
-        private readonly ITaskService _service;
+        _service = service;
+    }
 
-        public TasksController(ITaskService service)
+    [HttpGet("{pageNumber}/{pageSize}")]
+    public async Task<IActionResult> List(int pageNumber = 1, int pageSize = 10)
+    {
+        try
         {
-            _service = service;
+            var tasks = await _service.List(pageNumber, pageSize);
+
+            return Ok(tasks.OfType<Todo.Entities.Task>());
         }
-
-        [HttpGet("{pageNumber}/{pageSize}")]
-        public async Task<ActionResult<IEnumerable<ITask>>> List(int pageNumber = 1, int pageSize = 10)
+        catch (Exception error)
         {
-            try
-            {
-                IEnumerable<ITask> tasks = await _service.List(pageNumber, pageSize);
-
-                return Ok(tasks);
-            }
-            catch (Exception error)
-            {
-                return BadRequest(error.Message);
-            }
+            return BadRequest(error.Message);
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> New([FromBody] string description)
+    [HttpPost]
+    public async Task<IActionResult> New([FromBody] string description)
+    {
+        try
         {
-            try
-            {
-                Guid id = await _service.Add(description);
+            var id = await _service.Add(description);
 
-                return Ok(id);
-            }
-            catch (Exception error)
-            {
-                return BadRequest(error.Message);
-            }
+            return Ok(id);
         }
-
-        [HttpPut("{id}/Do")]
-        public IActionResult Do(Guid id)
+        catch (Exception error)
         {
-            try
-            {
-                _service.Do(id);
-
-                return Ok();
-            }
-            catch (Exception error)
-            {
-                return BadRequest(error.Message);
-            }
+            return BadRequest(error.Message);
         }
+    }
 
-        [HttpPut("{id}/Undo")]
-        public IActionResult Undo(Guid id)
+    [HttpPut("{id}/Do")]
+    public IActionResult Do(Guid id)
+    {
+        try
         {
-            try
-            {
-                _service.Undo(id);
+            _service.Do(id);
 
-                return Ok();
-            }
-            catch (Exception error)
-            {
-                return BadRequest(error.Message);
-            }
+            return Ok();
         }
-
-        [HttpDelete("{id}")]
-        public IActionResult Remove(Guid id)
+        catch (Exception error)
         {
-            try
-            {
-                _service.Remove(id);
+            return BadRequest(error.Message);
+        }
+    }
 
-                return Ok();
-            }
-            catch (Exception error)
-            {
-                return BadRequest(error.Message);
-            }
+    [HttpPut("{id}/Undo")]
+    public IActionResult Undo(Guid id)
+    {
+        try
+        {
+            _service.Undo(id);
+
+            return Ok();
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult Remove(Guid id)
+    {
+        try
+        {
+            _service.Remove(id);
+
+            return Ok();
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
         }
     }
 }

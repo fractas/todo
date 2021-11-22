@@ -1,6 +1,5 @@
-﻿namespace Todo.Ports.Entities
+﻿namespace Todo.Ports.Entities;
+
+public interface IAggregate : IEntity
 {
-    public interface IAggregate : IEntity
-    {
-    }
 }

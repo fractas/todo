@@ -3,93 +3,91 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-
 using Todo.Adapters.FileSystemTaskStore.DependencyInjection;
 using Todo.Entities;
 using Todo.Ports.Entities;
 
-namespace Todo.Adapters.FileSystemTaskStore
+namespace Todo.Adapters.FileSystemTaskStore;
+
+public class StoreContext : IDisposable
 {
-    public class StoreContext : IDisposable
+    private readonly string _path;
+
+    private readonly ICollection<ITask> _tasks = new Collection<ITask>();
+
+    public StoreContext(FileSystemTaskStoreConfiguration app)
     {
-        private readonly string _path;
+        _path = app.Filename;
 
-        private readonly ICollection<ITask> _tasks = new Collection<ITask>();
-
-        public StoreContext(ApplicationConfiguration app)
+        if (!File.Exists(_path))
         {
-            _path = app.Filename;
+            Directory.CreateDirectory(Path.GetDirectoryName(_path));
 
-            if (!File.Exists(_path))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(_path));
-
-                File.Create(_path);
-            }
+            File.Create(_path);
         }
+    }
 
-        public ICollection<ITask> Tasks
+    public ICollection<ITask> Tasks
+    {
+        get
         {
-            get
+            if (!_tasks.Any())
             {
-                if (!_tasks.Any())
+                try
                 {
-                    try
+                    foreach (string line in File.ReadAllLines(_path))
                     {
-                        foreach (string line in File.ReadAllLines(_path))
+                        string[] args = line.Split(';', StringSplitOptions.None);
+
+                        if (args.Length < 3)
                         {
-                            string[] args = line.Split(';', StringSplitOptions.None);
-
-                            if (args.Length < 3)
-                            {
-                                throw new FormatException("DataRecord format invalid");
-                            }
-
-                            _tasks.Add(Task.Load
-                                (
-                                    Guid.Parse(args.ElementAt(0)),
-                                    args.ElementAt(1),
-                                    bool.Parse(args.ElementAt(2))
-                                ));
+                            throw new FormatException("DataRecord format invalid");
                         }
-                    }
-                    catch
-                    {
-                        // ignore
+
+                        _tasks.Add(Task.Load
+                            (
+                                Guid.Parse(args.ElementAt(0)),
+                                args.ElementAt(1),
+                                bool.Parse(args.ElementAt(2))
+                            ));
                     }
                 }
-
-                return _tasks;
-            }
-        }
-
-        private bool disposedValue;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
+                catch
                 {
-                    try
-                    {
-                        File.WriteAllLines(_path, _tasks.Select(s => $"{s.Id};{s.Description};{s.Done}"));
-                    }
-                    catch
-                    {
-                        // ignore
-                    }
+                    // ignore
                 }
-
-                disposedValue = true;
             }
-        }
 
-        public void Dispose()
+            return _tasks;
+        }
+    }
+
+    private bool disposedValue;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
         {
-            Dispose(disposing: true);
+            if (disposing)
+            {
+                try
+                {
+                    File.WriteAllLines(_path, _tasks.Select(s => $"{s.Id};{s.Description};{s.Done}"));
+                }
+                catch
+                {
+                    // ignore
+                }
+            }
 
-            GC.SuppressFinalize(this);
+            disposedValue = true;
         }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+
+        GC.SuppressFinalize(this);
     }
 }

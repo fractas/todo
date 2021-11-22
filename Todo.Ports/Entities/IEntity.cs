@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Todo.Ports.Entities
+namespace Todo.Ports.Entities;
+
+public interface IEntity
 {
-    public interface IEntity
-    {
-        Guid Id { get; }
-    }
+    Guid Id { get; }
 }

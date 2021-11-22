@@ -1,11 +1,9 @@
 ﻿using System;
-
 using MediatR;
 
-namespace Todo.UseCases.Add
+namespace Todo.UseCases.Add;
+
+public class AddTask : IRequest<Guid>
 {
-    public class AddTask : IRequest<Guid>
-    {
-        public string Description { get; set; }
-    }
+    public string Description { get; set; }
 }
